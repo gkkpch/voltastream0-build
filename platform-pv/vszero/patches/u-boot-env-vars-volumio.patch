@@ -1,0 +1,85 @@
+diff --git a/configs/mx6ull_voltastream0_defconfig b/configs/mx6ull_voltastream0_defconfig
+index b18f1de..3d007f2 100644
+--- a/configs/mx6ull_voltastream0_defconfig
++++ b/configs/mx6ull_voltastream0_defconfig
+@@ -2,8 +2,8 @@ CONFIG_ARM=y
+ CONFIG_ARCH_MX6=y
+ CONFIG_TARGET_MX6ULL_VOLTASTREAM0=y
+ CONFIG_DEFAULT_DEVICE_TREE="imx6ull-voltastream0"
+-# CONFIG_VOLTASTREAM0_8G is not set
+-CONFIG_VOLTASTREAM0_4G=y
++CONFIG_VOLTASTREAM0_8G=y
++# CONFIG_VOLTASTREAM0_4G is not set
+ CONFIG_SYS_EXTRA_OPTIONS="IMX_CONFIG=board/polyvection/voltastream0/imximage.cfg"
+ CONFIG_BOOTDELAY=3
+ CONFIG_BOARD_EARLY_INIT_F=y
+diff --git a/include/configs/voltastream0.h b/include/configs/voltastream0.h
+index c2db1a8..fd0c5a8 100644
+--- a/include/configs/voltastream0.h
++++ b/include/configs/voltastream0.h
+@@ -49,39 +49,48 @@
+ #define CONFIG_EXTRA_ENV_SETTINGS \
+ 	"fdt_high=0xffffffff\0" \
+ 	"initrd_high=0xffffffff\0" \
++	"fdtfile=/boot/imx6ull-voltastream0.dtb\0" \
++	"imgfile=/boot/zImage\0" \
++	"rdfile=/boot/uInitrd\0" \
++	"envfile=/uEnv.txt\0" \
++	"swbank=1\0" \
++	"bootargs=console=ttymxc0,115200 root=/dev/mmcblk1p${swbank} coherent_pool=4M rootwait rw\0" \
+ 	"mmcautodetect=yes\0" \
+-	"swbank=2\0" \
+ 	"switch= if test ${swbank} -eq 1; then " \
+ 			"setenv swbank 2; saveenv; " \
+ 		"else " \
+ 			"setenv swbank 1; saveenv; " \
+ 		"fi;\0" \
+-	"mmcargs=setenv bootargs console=ttymxc0,115200 " \
+-		"root=/dev/mmcblk1p${swbank} coherent_pool=4M rootwait rw\0" \
+-	"loadimage=ext4load mmc 0:${swbank} 0x80800000 /boot/zImage\0" \
+-	"loadfdt=ext4load mmc 0:${swbank} 0x83000000 /boot/imx6ull-voltastream0.dtb\0" \
++	"loadimage=fatload mmc 0:${swbank} 0x80800000 ${imgfile} || ext4load mmc 0:${swbank} 0x80800000 ${imgfile}\0" \
++	"loadfdt=fatload mmc 0:${swbank} 0x83000000 ${fdtfile} || ext4load mmc 0:${swbank} 0x83000000 ${fdtfile}\0" \
++	"loadrd=fatload mmc 0:${swbank} 0x83080000 ${rdfile} || ext4load mmc 0:${swbank} 0x83080000 ${rdfile}\0" \
++	"loadscr=fatload mmc 0:${swbank} 0x83080000 ${envfile} || ext4load mmc 0:${swbank} 0x83080000 ${envfile}\0" \
+ 	"mmcboot=echo Booting from swbank=${swbank} ...; " \
+-		"run mmcargs; " \
++		"echo Kernel: ${imgfile}; " \
++		"echo Initrd: ${imgfile}; " \
++		"echo FDT: ${imgfile}; " \
+ 		"if run loadfdt; then " \
+-			"bootz 0x80800000 - 0x83000000; " \
++			"if run loadrd; then " \
++				"bootz 0x80800000 0x83080000 0x83000000; " \
++			"else " \
++				"bootz 0x80800000 - 0x83000000; " \
++			"fi; " \
+ 		"else " \
+ 			"echo WARN: Cannot load the DT - ABORTING; " \
+ 		"fi; " \
+ 
+ #define CONFIG_BOOTCOMMAND \
+-	   "mmc dev 0;" \
+-	   "mmc dev 0;" \
+-	   "if mmc rescan; then " \
+-           	"if run loadimage; then " \
++	"mmc dev 0;" \
++	"if run loadscr; then " \
++		"env import -t 0x83080000 ${filesize}; " \
++	"fi; " \
++	"if mmc rescan; then " \
++        	"if run loadimage; then " \
+ 	   		"run mmcboot; " \
+ 		"else " \
+-			"echo No kernel found - switching bank!; " \
+-			"run switch; " \
+-			"if run loadimage; then " \
+-	   			"run mmcboot; " \
+-			"fi; " \
++			"echo No kernel found!; " \
+            	"fi; " \
+-	   "fi;"
++	"fi;"
+ 
+ /* Miscellaneous configurable options */
+ #define CONFIG_SYS_MEMTEST_START	0x80000000
