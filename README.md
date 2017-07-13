@@ -1,5 +1,5 @@
 ### voltastream0-build
-Scripts to help build a Voltastream Zero image
+Scripts to help build a Voltastream Zero image.    
 This build set targets developers, it uses, but is not part of the volumio Build repo. 
 
 #### Prerequisites
@@ -24,13 +24,16 @@ This will
 - clone the official Volumio 2 build repo to $HOME/volumio-build  
 - place the default platform-pv files into the volumio-build folder
 
-#### Build the platform files
+#### Build the platform files, only needed the first time (except when you changed kernel or uboot)   
 - go to $HOME/vszero-build to start the kernel build, type:    
 
 ```
-./build-kernel.sh  
+./build-uboot.sh
+./build-kernel.sh  	
 ```
-(in case you need no config changes, just exit menuconfig)
+
+This will create the kenel and uboot, picked up by the volumio build process in the next steps  
+(When building the kernel and you need no config changes, just exit menuconfig).
 
 #### Build voltastream zero Image
 - goto $HOME/volumio-build and type:   
