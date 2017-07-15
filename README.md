@@ -14,6 +14,9 @@ git squashfs-tools kpartx multistrap qemu-user-static samba debootstrap parted d
 It is recommended, not a necessity, to use Debian Jessie 8 (as that's what we are building for).  
 If on Ubuntu, you may need to remove `$forceyes` from line 989 of /usr/sbin/multistrap  
 
+Also, to build the kernel and u-boot, you will need a cross-compiler.
+Minimun version is 5.3, you can download it from the linaro webseite.
+
 ### How to
 #### Prepare
 - clone the help scripts repo to $HOME  :  
