@@ -1,6 +1,9 @@
 ### voltastream0-build
-Scripts to help build a Voltastream Zero image.    
-This build set targets developers, it uses, but is not part of the volumio Build repo. 
+Scripts to help build your own Voltastream Zero image.       
+This build set targets developers.  
+#### Note  
+
+These scripts use, but are not part of the Volumio 2 Build and platform repo.  
 
 #### Prerequisites
 

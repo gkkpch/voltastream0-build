@@ -1,5 +1,5 @@
 rdfile=/uInitrd
 imgfile=/zImage
 fdtfile=/imx6ull-voltastream0.dtb
-bootargs=coherent_pool=4M console=ttymxc0,115200n8 console=ttymxc0 imgpart=/dev/mmcblk1p2 imgfile=/volumio_current.sqsh hwdevice=Voltastreamer0 bootdev=mmcblk1
+bootargs=coherent_pool=4M console=ttymxc0,115200n8 console=ttymxc0 imgpart=/dev/mmcblk1p2 imgfile=/volumio_current.sqsh hwdevice=Voltastream0 bootdev=mmcblk1
 

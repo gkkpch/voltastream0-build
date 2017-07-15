@@ -7,7 +7,9 @@ echo "Copying initial config"
 echo "Note: you must (re-)configure options, especially wifi drivers!)"
 echo "TODO (Gé): will fix this as soon as we have a running image"
 echo "^^^^^^^^^"
+cd vszero-build
 cp platform-pv/vszero/initial-kernel-config/imx_v7_PV_defconfig $KERNELDIR/arch/arm/configs
+cd $HOME
 echo "Cloning voltastream zero u-boot repo"
 git clone https://github.com/PolyVection/u-boot --depth 1 --branch v2017.05_PV
 cd $UBOOTDIR
