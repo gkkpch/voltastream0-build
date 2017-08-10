@@ -14,7 +14,7 @@ index 00c4901..6245925 100644
  CONFIG_BOOTDELAY=3
  CONFIG_BOARD_EARLY_INIT_F=y
 diff --git a/include/configs/voltastream0.h b/include/configs/voltastream0.h
-index c2db1a8..fd0c5a8 100644
+index 59b2867..038b7de 100644
 --- a/include/configs/voltastream0.h
 +++ b/include/configs/voltastream0.h
 @@ -49,39 +49,48 @@
@@ -26,7 +26,7 @@ index c2db1a8..fd0c5a8 100644
 +	"rdfile=/boot/uInitrd\0" \
 +	"envfile=/uEnv.txt\0" \
 +	"swbank=1\0" \
-+	"bootargs=console=ttymxc0,115200 root=/dev/mmcblk1p${swbank} coherent_pool=4M rootwait rw\0" \
++	"bootargs=console=ttymxc0,115200 root=/dev/mmcblk1p${swbank} coherent_pool=4M net.ifnames=0 rootwait rw\0" \
  	"mmcautodetect=yes\0" \
 -	"swbank=2\0" \
  	"switch= if test ${swbank} -eq 1; then " \
@@ -35,7 +35,7 @@ index c2db1a8..fd0c5a8 100644
  			"setenv swbank 1; saveenv; " \
  		"fi;\0" \
 -	"mmcargs=setenv bootargs console=ttymxc0,115200 " \
--		"root=/dev/mmcblk1p${swbank} coherent_pool=4M rootwait rw\0" \
+-		"root=/dev/mmcblk1p${swbank} coherent_pool=4M net.ifnames=0 rootwait rw\0" \
 -	"loadimage=ext4load mmc 0:${swbank} 0x80800000 /boot/zImage\0" \
 -	"loadfdt=ext4load mmc 0:${swbank} 0x83000000 /boot/imx6ull-voltastream0.dtb\0" \
 +	"loadimage=fatload mmc 0:${swbank} 0x80800000 ${imgfile} || ext4load mmc 0:${swbank} 0x80800000 ${imgfile}\0" \
