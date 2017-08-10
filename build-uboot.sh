@@ -7,6 +7,7 @@ touch .scmversion
 make clean
 make $UBOOT_DEFCONFIG
 make -j8
+mkdir -p $DESTDIR/vszero/u-boot/
 cp u-boot-dtb.imx $DESTDIR/vszero/u-boot/
 
 echo "Backup platform files..."
